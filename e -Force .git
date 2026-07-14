@@ -1,0 +1,17 @@
+[33mcommit 74a523e1ce36750c260fbb3ef69a6f6fde608e86[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Aditi Sau <aditisau8@gmail.com>
+Date:   Tue Jul 14 23:21:17 2026 +0530
+
+    First commit
+
+ similarity.pkl | Bin [31m184781252[m -> [32m0[m bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+[33mcommit 1b5a443241189e78473e6e85e45aa66f516e23cd[m
+Author: antararout06-hub <antararout06@gmail.com>
+Date:   Tue Jul 14 11:55:18 2026 +0530
+
+    Initial commit
+
+ similarity.pkl | Bin [31m0[m -> [32m184781252[m bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
