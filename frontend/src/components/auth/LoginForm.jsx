@@ -1,8 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  // Later we'll call the FastAPI login API here
+
+  navigate("/dashboard");
+};
   return (
-    <form className="space-y-5">
+    <form  onSubmit={handleSubmit} className="space-y-5">
 
       <input
         type="email"
@@ -17,15 +26,16 @@ const LoginForm = () => {
       />
 
       <button
-        className="
-        w-full
-        py-3
-        rounded-xl
-        bg-red-600
-        hover:bg-red-700
-        transition
-        "
-      >
+  type="submit"
+  className="
+  w-full
+  py-3
+  rounded-xl
+  bg-red-600
+  hover:bg-red-700
+  transition
+  "
+>
         Login
       </button>
 
