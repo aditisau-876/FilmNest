@@ -1,14 +1,43 @@
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
 
-  // Later we'll call the FastAPI login API here
+const handleSubmit = async (e) => {
 
-  navigate("/dashboard");
+    e.preventDefault();
+
+    try {
+
+        const response = await axios.post(
+            "http://localhost:8000/api/v1/auth/login",
+            {
+                email,
+                password,
+            }
+        );
+
+        localStorage.setItem(
+            "token",
+            response.data.access_token
+        );
+
+        navigate("/dashboard");
+
+    } catch (error) {
+
+        alert(
+            error.response?.data?.detail || "Login failed"
+        );
+
+    }
+
 };
   return (
     <form  onSubmit={handleSubmit} className="space-y-5">
@@ -16,12 +45,16 @@ const handleSubmit = (e) => {
       <input
         type="email"
         placeholder="Email"
+        value={email}
+onChange={(e)=>setEmail(e.target.value)}
         className="w-full bg-white/10 border border-white/10 rounded-xl p-3 outline-none focus:border-red-600"
       />
 
       <input
         type="password"
         placeholder="Password"
+        value={password}
+onChange={(e)=>setPassword(e.target.value)}
         className="w-full bg-white/10 border border-white/10 rounded-xl p-3 outline-none focus:border-red-600"
       />
 
