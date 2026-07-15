@@ -8,19 +8,22 @@ const Hero = () => {
     <section className="relative h-screen overflow-hidden">
       {/* Background Image */}
       <div
-        className="
-          absolute
-          inset-0
-          bg-[url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba')]
-          bg-cover
-          bg-center
-          brightness-[0.8]
-          contrast-110
-        "
-      />
+  className="
+    absolute
+    inset-0
+    bg-[url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba')]
+    bg-cover
+    bg-center
+    bg-no-repeat
+    brightness-110
+    contrast-125
+    saturate-125
+    scale-105
+  "
+/>
 
       {/* Cinematic Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/50 to-[#09090B]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/45 to-[#09090B]" />
 
       {/* Red Glow */}
       <Glow />
