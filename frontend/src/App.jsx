@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import MovieDetails from "./pages/MovieDetails";
 import Search from "./pages/Search";
 import Watchlist from "./pages/Watchlist";
+import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/movie/:id" element={<MovieDetails />} />
       <Route path="/search" element={<Search />} />
       <Route path="/watchlist" element={<Watchlist />} />
+      <Route path="/notifications" element={<Notifications />}/>
       <Route path="/profile" element={<Profile />} />
     </Routes>
   );

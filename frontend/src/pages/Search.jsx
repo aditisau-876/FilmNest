@@ -1,8 +1,7 @@
 import { useState } from "react";
-
 import SearchHeader from "../components/search/SearchHeader";
 import SearchGrid from "../components/search/SearchGrid";
-
+import AppNavbar from "../components/AppNavbar";
 import {
   trendingMovies,
   newReleases,
@@ -46,7 +45,7 @@ const Search = () => {
 
   return (
     <div className="min-h-screen bg-[#09090B] text-white">
-
+      <AppNavbar />
       <SearchHeader
         query={query}
         setQuery={setQuery}

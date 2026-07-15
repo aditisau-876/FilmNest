@@ -4,23 +4,17 @@ import StreamingPlatforms from "../components/movie/StreamingPlatforms";
 import CastSection from "../components/movie/CastSection";
 import SimilarMovies from "../components/movie/SimilarMovies";
 import ReviewSection from "../components/movie/ReviewSection";
-
+import AppNavbar from "../components/AppNavbar";
 const MovieDetails = () => {
   return (
     <div className="bg-[#09090B] text-white min-h-screen">
-
+      <AppNavbar />
       <MovieHero />
-
       <MovieInfo />
-
       <StreamingPlatforms />
-
       <CastSection />
-
       <SimilarMovies />
-
       <ReviewSection />
-
     </div>
   );
 };

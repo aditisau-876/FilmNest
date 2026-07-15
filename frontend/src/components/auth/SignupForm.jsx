@@ -1,8 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
+  const navigate = useNavigate();
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  // Later call signup API
+
+  navigate("/dashboard");
+};
   return (
-    <form className="space-y-5">
+    <form onSubmit={handleSubmit}className="space-y-5">
 
       <input
         type="text"
@@ -23,6 +32,7 @@ const SignupForm = () => {
       />
 
       <button
+        type="submit"
         className="
         w-full
         py-3

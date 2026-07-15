@@ -4,13 +4,13 @@ import FavoriteGenres from "../components/profile/FavoriteGenres";
 import ContinueWatching from "../components/profile/ContinueWatching";
 import RecentActivity from "../components/profile/RecentActivity";
 import ProfileActions from "../components/profile/ProfileActions";
-
+import AppNavbar from "../components/AppNavbar";
 import { trendingMovies } from "../data/movies";
 
 const Profile = () => {
   return (
     <div className="min-h-screen bg-[#09090B] text-white">
-
+      <AppNavbar/>
       <ProfileHeader />
 
       <StatsCards />
