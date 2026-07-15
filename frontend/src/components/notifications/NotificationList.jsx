@@ -1,0 +1,38 @@
+import NotificationCard from "./NotificationCard";
+import EmptyNotifications from "./EmptyNotifications";
+
+const NotificationList = ({ notifications }) => {
+
+  if(notifications.length===0){
+
+    return <EmptyNotifications/>;
+
+  }
+
+  return(
+
+    <section className="max-w-6xl mx-auto px-8 py-12">
+
+      <div className="space-y-6">
+
+        {notifications.map((item)=>(
+
+          <NotificationCard
+
+            key={item.id}
+
+            notification={item}
+
+          />
+
+        ))}
+
+      </div>
+
+    </section>
+
+  );
+
+};
+
+export default NotificationList;

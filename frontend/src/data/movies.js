@@ -1,5 +1,23 @@
 export const trendingMovies = [
   {
+    id: 1,
+    title: "Oppenheimer",
+    poster: "...",
+    rating: 8.7,
+    year: 2023,
+    genre: "Biography",
+    cast: "Cillian Murphy"
+  },
+  {
+    id: 2,
+    title: "The Batman",
+    poster: "...",
+    rating: 8.1,
+    year: 2022,
+    genre: "Action",
+    cast: "Robert Pattinson"
+  },
+  {
     title: "Oppenheimer",
     year: "2023",
     rating: "8.8",
@@ -42,7 +60,6 @@ export const trendingMovies = [
     image: "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
   },
 ];
-
 export const newReleases = [...trendingMovies];
 
 export const topRatedMovies = [...trendingMovies];
