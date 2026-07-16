@@ -10,9 +10,13 @@ class Settings(BaseSettings):
 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
+    TMDB_API_TOKEN: str
+
+    TMDB_BASE_URL: str
+
     model_config = SettingsConfigDict(
         env_file=".env",
-        case_sensitive=True
+        case_sensitive=True,
     )
 
 
