@@ -1,8 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-
 import { useState } from "react";
 import axios from "axios";
-
+import GoogleButton from "./GoogleButton";
 
 
 const SignupForm = () => {
@@ -17,7 +16,7 @@ const handleSubmit = async (e) => {
     try {
 
         const response = await axios.post(
-            "http://localhost:8000/api/v1/auth/signup",
+            "http://localhost:8000/auth/signup",
             {
                 username,
                 email,
@@ -66,6 +65,17 @@ const handleSubmit = async (e) => {
     onChange={(e) => setPassword(e.target.value)}
     className="w-full bg-white/10 border border-white/10 rounded-xl p-3 outline-none focus:border-red-600"
 />
+      <div className="flex items-center gap-3">
+    <hr className="flex-1 border-white/10" />
+    <span className="text-sm text-gray-500">
+        OR
+    </span>
+    <hr className="flex-1 border-white/10" />
+</div>
+
+<div className="flex justify-center">
+    <GoogleButton />
+</div>
 
       <button
         type="submit"
