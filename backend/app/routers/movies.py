@@ -1,14 +1,8 @@
 from fastapi import APIRouter
-
 from app.services.movie_service import MovieService
 
-router = APIRouter(
-    prefix="/movies",
-    tags=["Movies"],
-)
-
+router = APIRouter(prefix="/movies",tags=["Movies"])
 movie_service = MovieService()
-
 
 @router.get("/trending")
 async def trending():
