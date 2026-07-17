@@ -1,5 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from app.services.movie_service import MovieService
+from app.schemas.movie import (
+    MovieListResponse,
+    MovieDetailResponse,
+    WatchProvidersResponse,
+    CastListResponse,
+    ReviewListResponse
+)
 
 router = APIRouter(prefix="/movies",tags=["Movies"])
 movie_service = MovieService()
@@ -17,3 +24,73 @@ async def now_playing():
 @router.get("/top-rated")
 async def top_rated():
     return await movie_service.get_top_rated()
+
+@router.get("/search")
+async def search_movies(
+    query: str = Query(..., min_length=1),
+):
+    return await movie_service.search_movies(query)
+
+@router.get("/{movie_id}")
+async def movie_details(
+    movie_id: int,
+):
+    return await movie_service.get_movie_details(movie_id)
+
+@router.get("/{movie_id}/similar")
+async def similar_movies(
+    movie_id: int,
+):
+    return await movie_service.get_similar_movies(movie_id)
+
+@router.get("/{movie_id}/watch-providers")
+async def watch_providers(
+    movie_id: int,
+):
+    return await movie_service.get_watch_providers(movie_id)
+
+@router.get("/{movie_id}/trailer")
+async def movie_trailer(
+    movie_id: int,
+):
+    return await movie_service.get_trailer(movie_id)
+
+@router.get(
+    "/{movie_id}/cast",
+    response_model=CastListResponse,
+)
+async def get_movie_cast(
+    movie_id: int,
+):
+    return await movie_service.get_movie_cast(
+        movie_id
+    )
+
+@router.get(
+    "/{movie_id}/reviews",
+    response_model=ReviewListResponse,
+)
+async def get_movie_reviews(
+    movie_id: int,
+):
+    return await movie_service.get_movie_reviews(
+        movie_id
+    )
+
+@router.get(
+    "/{movie_id}/recommendations",
+    response_model=MovieListResponse,
+)
+async def get_recommendations(
+    movie_id: int,
+):
+    return await movie_service.get_recommendations(
+        movie_id
+    )
+
+@router.get(
+    "/upcoming",
+    response_model=MovieListResponse,
+)
+async def upcoming_movies():
+    return await movie_service.get_upcoming_movies()
