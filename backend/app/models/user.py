@@ -1,7 +1,11 @@
+from __future__ import annotations
 from datetime import datetime
 from sqlalchemy import Boolean, DateTime, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 from app.core.database import Base
+from sqlalchemy.orm import relationship
+from typing import TYPE_CHECKING
+
 
 class User(Base):
     __tablename__ = "users"
@@ -16,3 +20,12 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False,)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False,)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False,)
+
+
+if TYPE_CHECKING:
+    from app.models.watchlist import Watchlist
+
+watchlist: Mapped[list["Watchlist"]] = relationship(
+    back_populates="user",
+    cascade="all, delete-orphan",
+)
