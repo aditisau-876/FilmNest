@@ -1,7 +1,18 @@
 import { motion } from "framer-motion";
-import { Play, Info, Star, Clock, Calendar } from "lucide-react";
+import {
+  Play,
+  Info,
+  Star,
+  Clock,
+  Calendar,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const FeaturedMovie = () => {
+const FeaturedMovie = ({ movie }) => {
+  const navigate = useNavigate();
+
+  if (!movie) return null;
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
 
@@ -10,8 +21,7 @@ const FeaturedMovie = () => {
       <div
         className="absolute inset-0 bg-cover bg-center scale-110"
         style={{
-          backgroundImage:
-            "url('/featured/oppenheimer-bg.jpeg')",
+          backgroundImage: `url(${movie.backdrop_url})`,
         }}
       />
 
@@ -32,23 +42,21 @@ const FeaturedMovie = () => {
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: true }}
         >
-
           <img
-            src="/featured/oppenheimer-poster.jpg"
-            alt=""
+            src={movie.poster_url}
+            alt={movie.title}
             className="
-w-full
-max-w-[340px]
-h-auto
-rounded-3xl
-shadow-[0_25px_70px_rgba(0,0,0,.7)]
-hover:scale-105
-transition
-duration-500
-mx-auto
-"
+              w-full
+              max-w-[340px]
+              h-auto
+              rounded-3xl
+              shadow-[0_25px_70px_rgba(0,0,0,.7)]
+              hover:scale-105
+              transition
+              duration-500
+              mx-auto
+            "
           />
-
         </motion.div>
 
         {/* Details */}
@@ -58,115 +66,84 @@ mx-auto
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: true }}
         >
-
           <p className="uppercase tracking-[8px] text-red-500 mb-5">
             Featured This Week
           </p>
 
-          <h1 className="hero-title text-7xl">
-            OPPENHEIMER
+          <h1 className="hero-title text-6xl lg:text-7xl">
+            {movie.title}
           </h1>
 
           <div className="flex flex-wrap gap-8 mt-8 mb-8">
 
             <div className="flex items-center gap-2">
-
               <Star
                 className="text-red-500"
                 fill="#E50914"
               />
-
-              <span>8.8 IMDb</span>
-
+              <span>{movie.rating.toFixed(1)} IMDb</span>
             </div>
 
             <div className="flex items-center gap-2">
-
               <Clock />
-
-              <span>3h 00m</span>
-
+              <span>Runtime Available</span>
             </div>
 
             <div className="flex items-center gap-2">
-
               <Calendar />
-
-              <span>2023</span>
-
+              <span>
+                {movie.release_date?.substring(0, 4)}
+              </span>
             </div>
 
           </div>
 
-          <div className="flex gap-3 flex-wrap mb-8">
-
-            <span className="px-4 py-2 rounded-full bg-red-600/20 border border-red-600">
-              Drama
-            </span>
-
-            <span className="px-4 py-2 rounded-full bg-red-600/20 border border-red-600">
-              History
-            </span>
-
-            <span className="px-4 py-2 rounded-full bg-red-600/20 border border-red-600">
-              Thriller
-            </span>
-
-          </div>
-
-          <p className="text-gray-300 text-lg leading-9 max-w-xl">
-
-            During World War II, physicist
-            J. Robert Oppenheimer leads the
-            Manhattan Project, creating the
-            atomic bomb while confronting
-            the immense moral consequences
-            of his scientific achievement.
-
+          <p className="text-gray-300 text-lg leading-9 max-w-xl line-clamp-5">
+            {movie.overview}
           </p>
 
           <div className="flex gap-5 mt-12 flex-wrap">
 
             <button
+              onClick={() =>
+                navigate(`/movie/${movie.id}`)
+              }
               className="
-              flex
-              items-center
-              gap-3
-              bg-red-600
-              hover:bg-red-700
-              px-8
-              py-4
-              rounded-full
-              transition
+                flex
+                items-center
+                gap-3
+                bg-red-600
+                hover:bg-red-700
+                px-8
+                py-4
+                rounded-full
+                transition
               "
             >
-
               <Play />
-
-              Watch Trailer
-
+              View Movie
             </button>
 
             <button
+              onClick={() =>
+                navigate(`/movie/${movie.id}`)
+              }
               className="
-              flex
-              items-center
-              gap-3
-              border
-              border-white/20
-              px-8
-              py-4
-              rounded-full
-              hover:border-red-500
-              hover:bg-white/5
-              transition
+                flex
+                items-center
+                gap-3
+                border
+                border-white/20
+                px-8
+                py-4
+                rounded-full
+                hover:border-red-500
+                hover:bg-white/5
+                transition
               "
             >
-
               <Info />
-
               More Details
-
             </button>
 
           </div>
@@ -174,7 +151,6 @@ mx-auto
         </motion.div>
 
       </div>
-
     </section>
   );
 };

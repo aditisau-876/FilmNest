@@ -1,51 +1,71 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import AppNavbar from "../components/AppNavbar";
 import SearchHeader from "../components/search/SearchHeader";
 import SearchGrid from "../components/search/SearchGrid";
-import AppNavbar from "../components/AppNavbar";
-import {
-  trendingMovies,
-  newReleases,
-  topRatedMovies,
-} from "../data/movies";
 
-const allMovies = [
-  ...trendingMovies,
-  ...newReleases,
-  ...topRatedMovies,
-];
+import { searchMovies } from "../api/movies";
 
 const Search = () => {
-  // Search states
-  const [query, setQuery] = useState("");
-  const [genre, setGenre] = useState("All");
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const [query, setQuery] = useState(
+    searchParams.get("q") || ""
+  );
+
+  const [genre, setGenre] = useState(
+    searchParams.get("genre") || ""
+  );
+
   const [year, setYear] = useState("All");
-  const [cast, setCast] = useState("All");
+  const [cast, setCast] = useState("All Cast");
 
-  // Filter movies
-  const filteredMovies = allMovies.filter((movie) => {
-    const matchTitle =
-      movie.title.toLowerCase().includes(query.toLowerCase());
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const matchGenre =
-      genre === "All" || movie.genre === genre;
+  useEffect(() => {
+    // Don't search only if ALL filters are empty
+    if (
+      query.trim() === "" &&
+      genre === "" &&
+      year === "All" &&
+      cast === "All Cast"
+    ) {
+      setMovies([]);
+      return;
+    }
 
-    const matchYear =
-      year === "All" || movie.year.toString() === year;
+    const timer = setTimeout(async () => {
+      try {
+        setLoading(true);
 
-    const matchCast =
-      cast === "All" || movie.cast === cast;
+        const result = await searchMovies(
+          query,
+          genre === "" ? undefined : Number(genre),
+          year === "All" ? undefined : Number(year),
+          cast === "All Cast" ? undefined : cast
+        );
 
-    return (
-      matchTitle &&
-      matchGenre &&
-      matchYear &&
-      matchCast
-    );
-  });
+        console.log("Movies received:", result);
+
+        setMovies(result);
+      } catch (err) {
+        console.error("Search failed:", err);
+        setMovies([]);
+      } finally {
+        setLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query, genre, year, cast]);
 
   return (
     <div className="min-h-screen bg-[#09090B] text-white">
       <AppNavbar />
+
       <SearchHeader
         query={query}
         setQuery={setQuery}
@@ -57,10 +77,13 @@ const Search = () => {
         setCast={setCast}
       />
 
-      <SearchGrid
-        movies={filteredMovies}
-      />
-
+      {loading ? (
+        <div className="py-20 text-center text-gray-400">
+          Searching...
+        </div>
+      ) : (
+        <SearchGrid movies={movies} />
+      )}
     </div>
   );
 };

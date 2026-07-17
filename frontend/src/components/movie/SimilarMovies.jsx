@@ -1,18 +1,20 @@
 import MovieRail from "../movieRail/MovieRail";
 
-import {
-  trendingMovies
-} from "../../data/movies";
+const SimilarMovies = ({ movies }) => {
 
-const SimilarMovies = () => {
+  if (!movies?.length) return null;
+
   return (
+
     <MovieRail
-      title="Similar Movies"
-      subtitle="You may also like"
-      movies={trendingMovies}
+      title="More Like This"
+      subtitle="Recommended"
+      movies={movies}
       direction="left"
     />
+
   );
+
 };
 
 export default SimilarMovies;

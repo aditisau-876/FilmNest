@@ -4,8 +4,7 @@ from app.core.security import (create_access_token, hash_password, verify_passwo
 from app.models.user import User
 from app.schemas.auth import (GoogleLogin, TokenResponse, UserLogin, UserSignup)
 from app.schemas.user import UserResponse
-from google.oauth2 import id_token
-from google.auth.transport import requests
+import requests
 
 class AuthService:
     def __init__(self, db: Session):
@@ -53,50 +52,26 @@ class AuthService:
 
         return TokenResponse(access_token=token)
     
-    def google_login(self,google_data: GoogleLogin,) -> TokenResponse:
-        try:
-            id_info = id_token.verify_oauth2_token(
-            google_data.credential,
-            requests.Request(),
-            settings.GOOGLE_CLIENT_ID,
-        )
+    def google_login(self,google_data: GoogleLogin) -> TokenResponse:
 
-        except Exception:
+        response = requests.get("https://www.googleapis.com/oauth2/v3/userinfo",headers={"Authorization":f"Bearer {google_data.access_token}"})
+
+        if response.status_code != 200:
             raise ValueError("Invalid Google token")
 
+        id_info = response.json()
         email = id_info["email"]
-        username = id_info.get("name", email.split("@")[0])
-
-    
+        username = id_info.get("name",email.split("@")[0])
+        google_id = id_info["sub"]
+        picture = id_info.get("picture")
         user = (
-        self.db.query(User)
-        .filter(User.email == email)
-        .first()
-    )
-
-
+            self.db.query(User)
+            .filter(User.email == email)
+            .first()
+        )
         if user is None:
-            user = User(
-            username=username,
-            email=email,
-            hashed_password="",      
-            provider="GOOGLE",
-            google_id=id_info["sub"],
-            profile_picture=id_info.get("picture"),
-        )
-
+            user = User(username=username, email=email, hashed_password="", provider="GOOGLE", google_id=google_id, profile_picture=picture,)
             self.db.add(user)
-            self.db.commit()
-            self.db.refresh(user)
-
-        elif user.provider == "local":
-            raise ValueError(
-            "This email is already registered with password. Please log in using your password."
-        )
-
-        else:
-            user.google_id = id_info["sub"]
-            user.profile_picture = id_info.get("picture")
             self.db.commit()
             self.db.refresh(user)
 
@@ -104,5 +79,4 @@ class AuthService:
             raise ValueError("Your account has been deactivated")
 
         token = create_access_token(subject=user.email)
-
-        return TokenResponse(access_token=token,)
+        return TokenResponse(access_token=token)

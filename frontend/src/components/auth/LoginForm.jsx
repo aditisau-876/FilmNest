@@ -65,9 +65,9 @@ onChange={(e)=>setPassword(e.target.value)}
     <hr className="flex-1 border-white/10" />
 </div>
 
-<div className="flex justify-center">
-    <GoogleButton />
-</div>
+<GoogleButton
+    text="Sign in with Google"
+/>
 
       <button
   type="submit"

@@ -22,7 +22,7 @@ const MovieRail = ({
 
   const resumeTimer = useRef(null);
 
-  const speed = 0.45;
+  const speed = 0.30;
 
   useAnimationFrame(() => {
     if (paused || isTouching) return;

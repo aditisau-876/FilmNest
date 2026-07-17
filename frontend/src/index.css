@@ -129,3 +129,22 @@ body::-webkit-scrollbar-thumb {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.upcoming-scroll {
+    display: flex;
+    width: max-content;
+    animation: upcomingScroll 80s linear infinite;
+}
+
+.upcoming-scroll:hover {
+    animation-play-state: paused;
+}
+
+@keyframes upcomingScroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}

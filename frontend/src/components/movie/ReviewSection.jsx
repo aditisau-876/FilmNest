@@ -1,34 +1,25 @@
 import { Star } from "lucide-react";
 
-const reviews = [
-  {
-    user: "Alex",
-    rating: 5,
-    review:
-      "A masterpiece with incredible performances and stunning cinematography.",
-  },
-  {
-    user: "Sophia",
-    rating: 4,
-    review:
-      "Brilliant storytelling and an unforgettable soundtrack.",
-  },
-];
+const ReviewSection = ({ reviews }) => {
 
-const ReviewSection = () => {
+  if (!reviews?.length) return null;
+
   return (
+
     <section className="max-w-7xl mx-auto px-8 py-16">
 
       <h2 className="text-3xl font-bold mb-10">
+
         User Reviews
+
       </h2>
 
       <div className="space-y-8">
 
-        {reviews.map((review, index) => (
+        {reviews.map((review) => (
 
           <div
-            key={index}
+            key={review.id}
             className="
             bg-white/5
             border
@@ -38,29 +29,36 @@ const ReviewSection = () => {
             "
           >
 
-            <div className="flex items-center justify-between">
+            <div className="flex justify-between">
 
               <h3 className="font-semibold text-xl">
-                {review.user}
+
+                {review.author}
+
               </h3>
 
-              <div className="flex">
+              {review.rating && (
 
-                {[...Array(review.rating)].map((_, i) => (
+                <div className="flex items-center gap-2">
+
                   <Star
-                    key={i}
                     fill="gold"
                     className="text-yellow-400"
                     size={18}
                   />
-                ))}
 
-              </div>
+                  {review.rating}
+
+                </div>
+
+              )}
 
             </div>
 
             <p className="text-gray-300 mt-5 leading-8">
-              {review.review}
+
+              {review.content}
+
             </p>
 
           </div>
@@ -70,7 +68,9 @@ const ReviewSection = () => {
       </div>
 
     </section>
+
   );
+
 };
 
 export default ReviewSection;
