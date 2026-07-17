@@ -6,6 +6,8 @@ from app.core.database import Base
 from sqlalchemy.orm import relationship
 from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from app.models.watchlist import Watchlist
 
 class User(Base):
     __tablename__ = "users"
@@ -22,10 +24,9 @@ class User(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False,)
 
 
-if TYPE_CHECKING:
-    from app.models.watchlist import Watchlist
 
-watchlist: Mapped[list["Watchlist"]] = relationship(
-    back_populates="user",
-    cascade="all, delete-orphan",
-)
+
+    watchlist: Mapped[list["Watchlist"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
