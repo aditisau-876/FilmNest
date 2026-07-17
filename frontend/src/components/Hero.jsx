@@ -6,7 +6,6 @@ import ScrollIndicator from "./ScrollIndicator";
 const Hero = () => {
   return (
     <section className="relative h-screen overflow-hidden">
-      {/* Background Image */}
       <div
   className="
     absolute
@@ -21,29 +20,11 @@ const Hero = () => {
     scale-105
   "
 />
-
-      {/* Cinematic Overlay */}
+      
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/45 to-[#09090B]" />
-
-      {/* Red Glow */}
       <Glow />
-
-      {/* Hero Content */}
       <div
-        className="
-          relative
-          z-10
-          h-full
-          flex
-          flex-col
-          justify-center
-          items-center
-          text-center
-          px-6
-          pt-20
-        "
-      >
-        {/* Heading */}
+        className="relative z-10 h-full flex flex-col justify-center items-center text-center px-6 pt-20">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -62,7 +43,6 @@ const Hero = () => {
           MOVIE STARTS HERE
         </motion.h1>
 
-        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -81,7 +61,6 @@ const Hero = () => {
           all in one place.
         </motion.p>
 
-        {/* Search Bar */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,7 +71,6 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
       <ScrollIndicator />
     </section>
   );

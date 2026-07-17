@@ -34,4 +34,4 @@ class MessageResponse(BaseModel):
     message: str
 
 class GoogleLogin(BaseModel):
-    credential: str
+    access_token: str

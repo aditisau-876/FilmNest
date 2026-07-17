@@ -1,6 +1,14 @@
-import { Calendar, Clock3, Globe, Film } from "lucide-react";
+import {
+  Calendar,
+  Clock3,
+  Globe,
+  Film,
+  BadgeCheck,
+} from "lucide-react";
 
-const MovieInfo = () => {
+const MovieInfo = ({ movie }) => {
+  if (!movie) return null;
+
   return (
     <section className="max-w-7xl mx-auto px-8 py-16">
 
@@ -17,12 +25,7 @@ const MovieInfo = () => {
           </h3>
 
           <p className="text-gray-300 leading-8">
-
-            Oppenheimer follows the life of theoretical physicist
-            J. Robert Oppenheimer as he leads the Manhattan Project
-            and struggles with the moral consequences of creating
-            the atomic bomb.
-
+            {movie.overview}
           </p>
 
         </div>
@@ -32,27 +35,33 @@ const MovieInfo = () => {
           <div className="bg-white/5 rounded-2xl p-6">
             <Calendar className="text-red-500 mb-3"/>
             <h4 className="font-semibold">Release</h4>
-            <p className="text-gray-400">21 July 2023</p>
+            <p className="text-gray-400">
+              {movie.release_date}
+            </p>
           </div>
 
           <div className="bg-white/5 rounded-2xl p-6">
             <Clock3 className="text-red-500 mb-3"/>
             <h4 className="font-semibold">Runtime</h4>
-            <p className="text-gray-400">180 Minutes</p>
+            <p className="text-gray-400">
+              {movie.runtime} Minutes
+            </p>
           </div>
 
           <div className="bg-white/5 rounded-2xl p-6">
             <Film className="text-red-500 mb-3"/>
             <h4 className="font-semibold">Genre</h4>
             <p className="text-gray-400">
-              Biography • Drama
+              {movie.genres?.map(g => g.name).join(" • ")}
             </p>
           </div>
 
           <div className="bg-white/5 rounded-2xl p-6">
-            <Globe className="text-red-500 mb-3"/>
-            <h4 className="font-semibold">Language</h4>
-            <p className="text-gray-400">English</p>
+            <BadgeCheck className="text-red-500 mb-3"/>
+            <h4 className="font-semibold">Status</h4>
+            <p className="text-gray-400">
+              {movie.status}
+            </p>
           </div>
 
         </div>

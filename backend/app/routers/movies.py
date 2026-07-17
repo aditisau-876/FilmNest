@@ -27,10 +27,17 @@ async def top_rated():
 
 @router.get("/search")
 async def search_movies(
-    query: str = Query(..., min_length=1),
+    query: str = Query("", min_length=0),
+    genre: int | None = None,
+    year: int | None = None,
+    cast: str | None = None,
 ):
-    return await movie_service.search_movies(query)
-
+    return await movie_service.search_movies(
+        query=query,
+        genre=genre,
+        year=year,
+        cast=cast,
+    )
 
 @router.get(
     "/upcoming",
@@ -38,6 +45,10 @@ async def search_movies(
 )
 async def upcoming_movies():
     return await movie_service.get_upcoming_movies()
+
+@router.get("/popular")
+async def popular_movies():
+    return await movie_service.get_popular_movies()
 
 @router.get("/{movie_id}")
 async def movie_details(
