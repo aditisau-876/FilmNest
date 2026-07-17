@@ -31,6 +31,14 @@ async def search_movies(
 ):
     return await movie_service.search_movies(query)
 
+
+@router.get(
+    "/upcoming",
+    response_model=MovieListResponse,
+)
+async def upcoming_movies():
+    return await movie_service.get_upcoming_movies()
+
 @router.get("/{movie_id}")
 async def movie_details(
     movie_id: int,
@@ -77,6 +85,7 @@ async def get_movie_reviews(
         movie_id
     )
 
+
 @router.get(
     "/{movie_id}/recommendations",
     response_model=MovieListResponse,
@@ -88,9 +97,3 @@ async def get_recommendations(
         movie_id
     )
 
-@router.get(
-    "/upcoming",
-    response_model=MovieListResponse,
-)
-async def upcoming_movies():
-    return await movie_service.get_upcoming_movies()
