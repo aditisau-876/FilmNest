@@ -8,6 +8,7 @@ import CastSection from "../components/movie/CastSection";
 import SimilarMovies from "../components/movie/SimilarMovies";
 import ReviewSection from "../components/movie/ReviewSection";
 import TrailerSection from "../components/movie/TrailerSection";
+import MovieNavbar from "../components/MovieNavbar";
 import {getMovieDetails,getMovieTrailer,getMovieCast,getWatchProviders,getMovieReviews,getSimilarMovies} from "../api/movies";
 import {getWatchlist,addToWatchlist,removeFromWatchlist} from "../api/watchlist";
 
@@ -98,7 +99,7 @@ const MovieDetails = () => {
 
   return (
     <div className="bg-[#09090B] text-white min-h-screen">
-      <AppNavbar />
+      <MovieNavbar />
 
       <MovieHero
         movie={movie}

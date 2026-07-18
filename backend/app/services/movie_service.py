@@ -73,7 +73,20 @@ class MovieService:
         return self._format_movies(response)
 
     async def search_movies(self,query: str = "",genre: int | None = None,year: int | None = None,cast: str | None = None) -> MovieListResponse:
-        response = await self.tmdb.get("/search/movie", params={"query": query,},)
+        if query.strip():
+            response = await self.tmdb.get("/search/movie",params={"query": query},)
+
+        else:
+            params = {}
+
+            if genre is not None:
+                params["with_genres"] = genre
+
+            if year is not None:
+                params["primary_release_year"] = year
+
+            response = await self.tmdb.get("/discover/movie",params=params,)
+
         movies = response.get("results", [])
         if genre is not None:
             movies = [ 
@@ -91,15 +104,22 @@ class MovieService:
             person = await self.tmdb.get("/search/person",params={"query": cast},)
             if person.get("results"):
                 actor_id = person["results"][0]["id"]
-
                 credits = await self.tmdb.get(f"/person/{actor_id}/movie_credits")
                 actor_movie_ids = {
                     movie["id"]
                     for movie in credits.get("cast", [])}
-                movies = [
-                    movie
-                    for movie in movies
-                    if movie["id"] in actor_movie_ids]
+                if (
+                    not query.strip()
+                    and genre is None
+                    and year is None
+                ):
+                    movies = credits.get("cast", [])
+
+                else:
+                    movies = [
+                        movie
+                        for movie in movies
+                        if movie["id"] in actor_movie_ids]
         response["results"] = movies
         return self._format_movies(response)
     
