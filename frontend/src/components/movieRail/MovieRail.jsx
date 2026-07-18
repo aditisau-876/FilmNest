@@ -9,20 +9,16 @@ const MovieRail = ({
   subtitle = "Movies",
   movies,
   direction = "left",
+  watchlist = [],
+  refreshWatchlist,
 }) => {
   const duplicatedMovies = [...movies, ...movies];
-
   const containerRef = useRef(null);
-
   const [offset, setOffset] = useState(0);
-
   const [paused, setPaused] = useState(false);
-
   const [isTouching, setIsTouching] = useState(false);
-
   const resumeTimer = useRef(null);
-
-  const speed = 0.30;
+  const speed = 0.35;
 
   useAnimationFrame(() => {
     if (paused || isTouching) return;
@@ -65,7 +61,6 @@ const MovieRail = ({
     <section className="py-20 overflow-hidden">
       <div className="max-w-[1600px] mx-auto">
 
-        {/* Heading */}
 
         <div className="flex justify-between items-center px-6 mb-10">
 
@@ -84,21 +79,6 @@ const MovieRail = ({
             </h2>
 
           </div>
-
-          <button
-            className="
-            border
-            border-white/20
-            px-6
-            py-3
-            rounded-full
-            hover:border-red-600
-            hover:bg-red-600/10
-            transition
-            "
-          >
-            View All
-          </button>
 
         </div>
 
@@ -130,8 +110,10 @@ active:cursor-grabbing
 
             {duplicatedMovies.map((movie, index) => (
               <MovieCard
-                key={index}
+                key={movie.id + "-" + index}
                 movie={movie}
+                watchlist={watchlist}
+                refreshWatchlist={refreshWatchlist}
               />
             ))}
 

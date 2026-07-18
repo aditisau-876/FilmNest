@@ -1,8 +1,28 @@
-import { Star } from "lucide-react";
+import { Star, Heart } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getWatchlist,addToWatchlist,removeFromWatchlist} from "../../api/watchlist";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-const MovieCard = ({ movie }) => {
+
+const MovieCard = ({ movie, watchlist,refreshWatchlist }) => {
   const navigate = useNavigate();
+  const [added, setAdded] = useState(false);
+  useEffect(() => {
+    setAdded(
+    (watchlist || []).some(item => item.id === movie.id));
+  }, [watchlist, movie.id]);
+
+const handleWatchlist = async () => {
+  try {
+    if (added) return;
+    await addToWatchlist(movie.id);
+    setAdded(true);
+    refreshWatchlist?.();
+  } catch (error) {
+    console.log(error.response?.data);
+  }
+};
+
   return (
     <motion.div
       whileHover={{
@@ -70,19 +90,49 @@ const MovieCard = ({ movie }) => {
           </span>
         </div>
 
-        <button
-          className="
-          mt-5
-          w-full
-          bg-red-600
-          hover:bg-red-700
-          rounded-full
-          py-3
-          transition
-          "
-        >
-          View Details
-        </button>
+        <div className="flex gap-3 mt-5">
+
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      navigate(`/movie/${movie.id}`);
+    }}
+    className="
+    flex-1
+    bg-red-600
+    hover:bg-red-700
+    rounded-full
+    py-3
+    transition
+    "
+  >
+    View Details
+  </button>
+
+
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      handleWatchlist();
+    }}
+    className="
+    px-4
+    bg-white/10
+    hover:bg-red-600
+    rounded-full
+    transition
+    "
+  >
+
+    <Heart
+      size={22}
+      fill={added ? "red" : "none"}
+      className="text-red-500"
+    />
+
+  </button>
+
+</div>
       </div>
     </motion.div>
   );
