@@ -10,21 +10,9 @@ const AppNavbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const unread = 3;
   const navItems = [
-    {
-      name: "Home",
-      path: "/dashboard",
-      icon: Home,
-    },
-    {
-      name: "Search",
-      path: "/search",
-      icon: Search,
-    },
-    {
-      name: "Watchlist",
-      path: "/watchlist",
-      icon: Heart,
-    },
+    {name: "Home",path: "/dashboard",icon: Home },
+    {name: "Search",path: "/search",icon: Search},
+    {name: "Watchlist",path: "/watchlist",icon: Heart},
   ];
 
   const handleAIScroll = () => {
@@ -32,10 +20,7 @@ const AppNavbar = () => {
       const section = document.getElementById("ai-recommendation");
 
       if (section) {
-        section.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+        section.scrollIntoView({behavior: "smooth",block: "start"});
       }
     } else {
       navigate("/dashboard");
@@ -44,230 +29,77 @@ const AppNavbar = () => {
         const section = document.getElementById("ai-recommendation");
 
         if (section) {
-          section.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      }, 300);
+          section.scrollIntoView({behavior: "smooth",block: "start"});
+        }}, 300);
     }
   };
   const handleLogoClick = () => {
-  if (location.pathname === "/dashboard") {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  } else {
-    navigate("/dashboard");
-  }
-};
+    if (
+      location.pathname === "/dashboard" || location.pathname.startsWith("/movie/")) {navigate("/dashboard");
+      setTimeout(() => {
+        window.scrollTo({top: 0,behavior: "smooth"});
+        }, 100);
+    } else {navigate("/dashboard");}
+  };
   return (
     <>
       <nav className="fixed top-0 left-0 w-full z-50 bg-black/70 backdrop-blur-2xl border-b border-white/10">
 
         <div className="max-w-7xl mx-auto h-20 px-8 flex justify-between items-center">
-
-          {/* Logo */}
-
           <button onClick={handleLogoClick} className="cursor-pointer">
             <img src={logo} alt="FilmNest" className="h-14"/>
           </button>
-
-          {/* Desktop Menu */}
-
           <div className="hidden lg:flex items-center gap-8">
-
             {navItems.map((item) => {
               const Icon = item.icon;
-
               return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`flex items-center gap-2 transition ${
-                    location.pathname === item.path
-                      ? "text-red-500"
-                      : "text-white hover:text-red-500"
-                  }`}
-                >
-                  <Icon size={18} />
-                  {item.name}
-                </Link>
+                <Link key={item.name} to={item.path} className={`flex items-center gap-2 transition ${location.pathname === item.path ? "text-red-500" : "text-white hover:text-red-500"}`}><Icon size={18} />{item.name}</Link>
               );
             })}
-
-            {/* AI */}
-
-            <button
-              onClick={handleAIScroll}
-              className="flex items-center gap-2 text-white hover:text-red-500 transition"
-            >
-              <Sparkles size={18} />
-              AI
-            </button>
-
+            <button onClick={handleAIScroll} className="flex items-center gap-2 text-white hover:text-red-500 transition">
+              <Sparkles size={18} />AI</button>
           </div>
-
-          {/* Right Side */}
-
           <div className="hidden lg:flex items-center gap-6">
-
-            {/* Notifications */}
-
-            <Link
-              to="/notifications"
-              className="relative"
-            >
+            <Link to="/notifications" className="relative">
               <Bell
-                className={`transition ${
-                  location.pathname === "/notifications"
-                    ? "text-red-500"
-                    : "hover:text-red-500"
-                }`}
-              />
-
+                className={`transition ${location.pathname === "/notifications" ? "text-red-500" : "hover:text-red-500"}`}/>
               {unread > 0 && (
                 <span
-                  className="
-                  absolute
-                  -top-2
-                  -right-2
-                  w-5
-                  h-5
-                  rounded-full
-                  bg-red-600
-                  text-xs
-                  flex
-                  items-center
-                  justify-center
-                  "
-                >
-                  {unread}
-                </span>
-              )}
-            </Link>
-
-            {/* Profile */}
-
-            <Link
-              to="/profile"
-              className="flex items-center gap-3 hover:opacity-90 transition"
-            >
-              <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center">
-                <User size={20} />
-              </div>
-
+                  className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-600 text-xs flex items-center justify-center">{unread}</span>)}</Link>
+            <Link to="/profile" className="flex items-center gap-3 hover:opacity-90 transition">
+              <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center"><User size={20} /></div>
               <div>
-                <p className="font-semibold">
-                  Aditi
-                </p>
-
-                <p className="text-xs text-gray-400">
-                  View Profile
-                </p>
+                <p className="font-semibold">Aditi</p>
+                <p className="text-xs text-gray-400">View Profile</p>
               </div>
             </Link>
-
           </div>
-
-          {/* Mobile Menu Button */}
-
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden"
-          >
-            {menuOpen ? <X /> : <Menu />}
-          </button>
-
+          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden">{menuOpen ? <X /> : <Menu />}</button>
         </div>
-
       </nav>
-
-      {/* Mobile Drawer */}
-
       <AnimatePresence>
-
         {menuOpen && (
-
-          <motion.div
-            initial={{ x: 300 }}
-            animate={{ x: 0 }}
-            exit={{ x: 300 }}
-            transition={{ duration: 0.25 }}
-            className="fixed right-0 top-20 w-72 h-screen bg-[#121212] border-l border-white/10 z-40"
-          >
-
+          <motion.div initial={{ x: 300 }} animate={{ x: 0 }} exit={{ x: 300 }} transition={{ duration: 0.25 }} className="fixed right-0 top-20 w-72 h-screen bg-[#121212] border-l border-white/10 z-40">
             <div className="p-8 space-y-7">
 
               {navItems.map((item) => {
                 const Icon = item.icon;
-
                 return (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-4"
-                  >
-                    <Icon />
-                    {item.name}
-                  </Link>
+                  <Link key={item.name} to={item.path} onClick={() => setMenuOpen(false)} className="flex items-center gap-4"><Icon />{item.name}</Link>
                 );
               })}
-
-              {/* AI */}
-
               <button
                 onClick={() => {
                   setMenuOpen(false);
-                  handleAIScroll();
-                }}
-                className="flex items-center gap-4"
-              >
-                <Sparkles />
-                AI Recommendation
-              </button>
-
-              {/* Notifications */}
-
-              <Link
-                to="/notifications"
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-4"
-              >
-                <Bell />
-                Notifications
-              </Link>
-
-              {/* Profile */}
-
-              <Link
-                to="/profile"
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-4"
-              >
-                <User />
-                Profile
-              </Link>
-
-              {/* Logout */}
-
-              <button
-                className="flex items-center gap-4 text-red-500"
-              >
-                <LogOut />
-                Logout
-              </button>
-
+                  handleAIScroll();}}
+                  className="flex items-center gap-4"><Sparkles />AI Recommendation</button>
+              <Link to="/notifications" onClick={() => setMenuOpen(false)} className="flex items-center gap-4"><Bell />Notifications</Link>
+              <Link to="/profile" onClick={() => setMenuOpen(false)} className="flex items-center gap-4"><User />Profile</Link>
+              <button className="flex items-center gap-4 text-red-500"><LogOut />Logout</button>
             </div>
-
           </motion.div>
-
         )}
-
       </AnimatePresence>
-
     </>
   );
 };

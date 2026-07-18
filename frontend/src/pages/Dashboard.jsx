@@ -5,13 +5,7 @@ import MovieRail from "../components/movieRail/MovieRail";
 import RecommendationHero from "../components/recommendation/RecommendationHero";
 import RecommendationGrid from "../components/recommendation/RecommendationGrid";
 import UpcomingMovies from "../components/dashboard/UpcomingMovies";
-
-import {
-  getTrendingMovies,
-  getTopRatedMovies,
-  getNewReleases,
-} from "../api/movies";
-
+import {getTrendingMovies,getTopRatedMovies,getNewReleases,getPopularMovies} from "../api/movies";
 import { getWatchlist } from "../api/watchlist";
 
 const Dashboard = () => {
@@ -19,7 +13,7 @@ const Dashboard = () => {
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
-
+  const [featuredMovie, setFeaturedMovie] = useState(null);
   
   const refreshWatchlist = async () => {
     try {
@@ -29,30 +23,22 @@ const Dashboard = () => {
       setWatchlist([]);
     }
   };
-
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const [
-          trending,
-          topRated,
-          releases,
-        ] = await Promise.all([
-          getTrendingMovies(),
-          getTopRatedMovies(),
-          getNewReleases(),
-        ]);
-
+        const [trending,topRated,releases,popular] = await Promise.all([getTrendingMovies(),getTopRatedMovies(),getNewReleases(),getPopularMovies()]);
         setTrendingMovies(trending);
         setTopRatedMovies(topRated);
         setNewReleases(releases);
-
+        if (popular.length > 0) {
+          const randomMovie =popular[Math.floor(Math.random() * popular.length)];
+          setFeaturedMovie(randomMovie);
+          }
         await refreshWatchlist();
       } catch (err) {
         console.error(err);
       }
     };
-
     fetchMovies();
   }, []);
 
@@ -63,15 +49,10 @@ const Dashboard = () => {
   return (
     <div className="bg-[#09090B] text-white min-h-screen">
       <AppNavbar />
-
-      <HeroBanner />
-
+      <HeroBanner movie={featuredMovie}/>
       <RecommendationHero />
-
       <RecommendationGrid />
-
       <UpcomingMovies />
-
       <MovieRail
         title="Trending Now"
         subtitle="Trending"
@@ -80,7 +61,6 @@ const Dashboard = () => {
         watchlist={watchlist}
         refreshWatchlist={refreshWatchlist}
       />
-
       <MovieRail
         title="New Releases"
         subtitle="Latest"
@@ -89,7 +69,6 @@ const Dashboard = () => {
         watchlist={watchlist}
         refreshWatchlist={refreshWatchlist}
       />
-
       <MovieRail
         title="Top Rated"
         subtitle="IMDb Favorites"

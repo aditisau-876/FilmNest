@@ -10,9 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const FeaturedMovie = ({ movie }) => {
   const navigate = useNavigate();
-
   if (!movie) return null;
-
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
 
@@ -24,24 +22,13 @@ const FeaturedMovie = ({ movie }) => {
           backgroundImage: `url(${movie.backdrop_url})`,
         }}
       />
-
-      {/* Overlay */}
-
       <div className="absolute inset-0 bg-black/70" />
-
-      {/* Gradient */}
-
       <div className="absolute inset-0 bg-gradient-to-r from-[#09090B] via-black/70 to-black/30" />
-
       <div className="relative z-10 max-w-7xl mx-auto px-8 grid lg:grid-cols-2 gap-20 items-center">
-
-        {/* Poster */}
-
         <motion.div
           initial={{ x: -60, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-        >
+          viewport={{ once: true }}>
           <img
             src={movie.poster_url}
             alt={movie.title}
@@ -58,22 +45,16 @@ const FeaturedMovie = ({ movie }) => {
             "
           />
         </motion.div>
-
-        {/* Details */}
-
         <motion.div
           initial={{ x: 60, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-        >
+          viewport={{ once: true }}>
           <p className="uppercase tracking-[8px] text-red-500 mb-5">
             Featured This Week
           </p>
-
           <h1 className="hero-title text-6xl lg:text-7xl">
             {movie.title}
           </h1>
-
           <div className="flex flex-wrap gap-8 mt-8 mb-8">
 
             <div className="flex items-center gap-2">
@@ -97,17 +78,13 @@ const FeaturedMovie = ({ movie }) => {
             </div>
 
           </div>
-
           <p className="text-gray-300 text-lg leading-9 max-w-xl line-clamp-5">
             {movie.overview}
           </p>
-
           <div className="flex gap-5 mt-12 flex-wrap">
-
             <button
               onClick={() =>
-                navigate(`/movie/${movie.id}`)
-              }
+                navigate(`/movie/${movie.id}`)}
               className="
                 flex
                 items-center
@@ -118,8 +95,7 @@ const FeaturedMovie = ({ movie }) => {
                 py-4
                 rounded-full
                 transition
-              "
-            >
+              ">
               <Play />
               View Movie
             </button>
@@ -140,16 +116,12 @@ const FeaturedMovie = ({ movie }) => {
                 hover:border-red-500
                 hover:bg-white/5
                 transition
-              "
-            >
+              ">
               <Info />
               More Details
             </button>
-
           </div>
-
         </motion.div>
-
       </div>
     </section>
   );
