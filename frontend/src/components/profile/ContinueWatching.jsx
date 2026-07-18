@@ -12,7 +12,7 @@ const ContinueWatching = ({ movies }) => {
           <div key={movie.id}>
 
             <img
-              src={movie.poster}
+              src={movie.poster_url}
               alt={movie.title}
               className="rounded-xl"
             />

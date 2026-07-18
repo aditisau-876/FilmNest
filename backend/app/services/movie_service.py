@@ -284,3 +284,16 @@ class MovieService:
         )
 
         return self._format_movies(response)
+    
+
+    async def get_movies_by_ids(self, movie_ids: list[int],):
+        movies = []
+
+        for movie_id in movie_ids:
+            try:
+                movie = await self.get_movie_details(movie_id)
+                movies.append(movie)
+            except Exception:
+                continue
+
+        return movies

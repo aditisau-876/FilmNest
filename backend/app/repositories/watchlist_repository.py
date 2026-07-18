@@ -39,3 +39,13 @@ class WatchlistRepository:
     def delete(self, item: Watchlist):
         self.db.delete(item)
         self.db.commit()
+
+
+    def get_recent(self, user_id: int, limit: int = 10):
+        return (
+            self.db.query(Watchlist)
+            .filter(Watchlist.user_id == user_id)
+            .order_by(Watchlist.created_at.desc())
+            .limit(limit)
+            .all()
+        )

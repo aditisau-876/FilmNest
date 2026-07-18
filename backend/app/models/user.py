@@ -8,6 +8,9 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.watchlist import Watchlist
+    
+if TYPE_CHECKING:
+    from app.models.genre_preference import GenrePreference
 
 class User(Base):
     __tablename__ = "users"
@@ -27,6 +30,19 @@ class User(Base):
 
 
     watchlist: Mapped[list["Watchlist"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+
+    genre_preferences: Mapped[list["GenrePreference"]] = relationship(
+        "GenrePreference",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    watch_history = relationship(
+        "WatchHistory",
         back_populates="user",
         cascade="all, delete-orphan",
     )

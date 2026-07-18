@@ -4,6 +4,7 @@ from app.routers import api_router
 
 from fastapi.middleware.cors import CORSMiddleware
 
+
 app = FastAPI(
     title="FilmNest API",
     version="1.0.0",
@@ -29,3 +30,4 @@ def root():
     return {
         "message": "Welcome to FilmNest API"
     }
+
