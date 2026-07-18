@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const API = axios.create({
-  baseURL: "http://localhost:8000",
-});
+import API from "./api";
 
 export const getTrendingMovies = async () => {
   const { data } = await API.get("/movies/trending");
@@ -71,3 +67,4 @@ export const getPopularMovies = async () => {
     const { data } = await API.get("/movies/popular");
     return data.data;
 };
+

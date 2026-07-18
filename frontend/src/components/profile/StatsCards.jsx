@@ -1,30 +1,30 @@
 import { Film, Heart, Star } from "lucide-react";
 
-const stats = [
-  {
-    title: "Movies Watched",
-    value: "25",
-    icon: Film,
-  },
-  {
-    title: "Watchlist",
-    value: "12",
-    icon: Heart,
-  },
-  {
-    title: "Reviews",
-    value: "8",
-    icon: Star,
-  },
-];
+const StatsCards = ({ stats }) => {
 
-const StatsCards = () => {
+  const cards = [
+    {
+      title: "Movies Watched",
+      value: stats?.movies_watched ?? 0,
+      icon: Film,
+    },
+    {
+      title: "Watchlist",
+      value: stats?.watchlist_count ?? 0,
+      icon: Heart,
+    },
+    {
+      title: "Reviews",
+      value: stats?.reviews_count ?? 0,
+      icon: Star,
+    },
+  ];
+
   return (
     <div className="max-w-6xl mx-auto px-8">
-
       <div className="grid md:grid-cols-3 gap-6">
 
-        {stats.map((item, index) => {
+        {cards.map((item, index) => {
           const Icon = item.icon;
 
           return (
@@ -50,7 +50,6 @@ const StatsCards = () => {
         })}
 
       </div>
-
     </div>
   );
 };

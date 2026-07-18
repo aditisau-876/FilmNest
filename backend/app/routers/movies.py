@@ -1,3 +1,5 @@
+from unittest import result
+
 from fastapi import APIRouter, Query
 from app.services.movie_service import MovieService
 from app.schemas.movie import (
@@ -6,6 +8,24 @@ from app.schemas.movie import (
     WatchProvidersResponse,
     CastListResponse,
     ReviewListResponse
+)
+from app.repositories.watch_history_repository import WatchHistoryRepository
+from app.services.watch_history_service import WatchHistoryService
+
+from app.utils.tmdb_genres import TMDB_GENRES
+
+from fastapi import Depends
+from sqlalchemy.orm import Session
+
+from app.core.database import get_db
+from app.core.dependencies import get_current_user
+from app.models.user import User
+
+from app.repositories.genre_preference_repository import (
+    GenrePreferenceRepository,
+)
+from app.services.genre_preference_service import (
+    GenrePreferenceService,
 )
 
 router = APIRouter(prefix="/movies",tags=["Movies"])
@@ -21,6 +41,7 @@ async def now_playing():
     return await movie_service.get_now_playing()
 
 
+
 @router.get("/top-rated")
 async def top_rated():
     return await movie_service.get_top_rated()
@@ -31,13 +52,29 @@ async def search_movies(
     genre: int | None = None,
     year: int | None = None,
     cast: str | None = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    return await movie_service.search_movies(
-        query=query,
-        genre=genre,
-        year=year,
-        cast=cast,
-    )
+    result = await movie_service.search_movies(
+    query=query,
+    genre=genre,
+    year=year,
+    cast=cast,
+)
+    if genre is not None:
+        repo = GenrePreferenceRepository(db)
+        service = GenrePreferenceService(repo)
+
+        genre_name = TMDB_GENRES.get(genre)
+
+        if genre_name:
+            service.record_search(
+                current_user.id,
+                genre_name,
+            )
+
+    return result
+
 
 @router.get(
     "/upcoming",
@@ -53,8 +90,32 @@ async def popular_movies():
 @router.get("/{movie_id}")
 async def movie_details(
     movie_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    return await movie_service.get_movie_details(movie_id)
+    movie = await movie_service.get_movie_details(movie_id)
+    history_repo = WatchHistoryRepository(db)
+    history_service = WatchHistoryService(history_repo)
+
+    history_service.record_view(
+        current_user.id,
+        movie_id,
+    )
+    
+    repo = GenrePreferenceRepository(db)
+    service = GenrePreferenceService(repo)
+
+    genres = [
+    genre.name
+    for genre in movie.genres
+    ]
+
+    service.record_genres(
+    current_user.id,
+    genres,
+    )
+
+    return movie
 
 @router.get("/{movie_id}/similar")
 async def similar_movies(
@@ -107,4 +168,3 @@ async def get_recommendations(
     return await movie_service.get_recommendations(
         movie_id
     )
-
