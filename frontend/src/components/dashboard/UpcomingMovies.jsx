@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { motion, useAnimationFrame } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
 const CARD_WIDTH = 520;
 
 const UpcomingMovies = () => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +16,7 @@ const UpcomingMovies = () => {
   const resumeTimer = useRef(null);
 
   // Much slower than MovieRail
-  const speed = 0.30;
+  const speed = 0.35;
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -95,18 +96,6 @@ const UpcomingMovies = () => {
             </h2>
           </div>
 
-          <button
-            className="
-              border border-white/20
-              px-6 py-3
-              rounded-full
-              hover:border-red-600
-              hover:bg-red-600/10
-              transition
-            "
-          >
-            View All
-          </button>
 
         </div>
 
@@ -141,6 +130,7 @@ const UpcomingMovies = () => {
             {duplicatedMovies.map((movie, index) => (
               <div
                 key={index}
+                onClick={() => navigate(`/movie/${movie.id}`)}
                 className="
                   relative
                   w-[500px]
@@ -184,7 +174,8 @@ const UpcomingMovies = () => {
                     ⭐ {movie.rating}
                   </p>
 
-                  <button
+                  <button 
+                   onClick={(e) => {e.stopPropagation(); navigate(`/movie/${movie.id}`);}}
                     className="
                       mt-5
                       bg-white

@@ -71,22 +71,6 @@ Trending Now
 
 </div>
 
-<button
-className="
-border
-border-white/20
-px-6
-py-3
-rounded-full
-hover:border-red-500
-transition
-"
->
-
-View All
-
-</button>
-
 </div>
 
 <div
@@ -101,15 +85,9 @@ pb-5
 
 {movies.map((movie,index)=>(
 
-<MovieCard
-
+<MovieCard 
 key={index}
-
-movie={movie}
-
-/>
-
-))}
+movie={movie}/>))}
 
 </div>
 

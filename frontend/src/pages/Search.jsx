@@ -26,16 +26,6 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Don't search only if ALL filters are empty
-    if (
-      query.trim() === "" &&
-      genre === "" &&
-      year === "All" &&
-      cast === "All Cast"
-    ) {
-      setMovies([]);
-      return;
-    }
 
     const timer = setTimeout(async () => {
       try {

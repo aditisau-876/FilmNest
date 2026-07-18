@@ -1,7 +1,7 @@
 import { Play, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 
-const MovieHero = ({ movie, trailer }) => {
+const MovieHero = ({ movie, trailer, added, handleWatchlist,}) => {
   const openTrailer = () => {
     if (!trailer?.youtube_key) return;
 
@@ -112,6 +112,7 @@ const MovieHero = ({ movie, trailer }) => {
               </button>
 
               <button
+                onClick={handleWatchlist}
                 className="
                   bg-white/10
                   hover:bg-white/20
@@ -128,8 +129,7 @@ const MovieHero = ({ movie, trailer }) => {
                   font-semibold
                 "
               >
-                <Heart size={20} />
-                Add to Watchlist
+                <Heart size={20} fill={added ? "red" : "none"} className="text-red-500"/>
               </button>
             </div>
           </div>

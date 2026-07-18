@@ -1,6 +1,10 @@
 import { Star, Trash2, Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const WatchlistMovieCard = ({ movie, removeMovie }) => {
+
+  const navigate = useNavigate();
+
   return (
     <div
       className="
@@ -16,7 +20,7 @@ const WatchlistMovieCard = ({ movie, removeMovie }) => {
     >
 
       <img
-        src={movie.poster}
+        src={movie.poster_url}
         alt={movie.title}
         className="
         w-full
@@ -29,41 +33,34 @@ const WatchlistMovieCard = ({ movie, removeMovie }) => {
       <div className="flex-1 p-8">
 
         <h2 className="text-3xl font-bold">
-
           {movie.title}
-
         </h2>
 
         <div className="flex gap-5 mt-4 text-gray-300">
 
           <span className="flex items-center gap-2">
-
             <Star
               size={18}
               fill="gold"
               className="text-yellow-400"
             />
-
-            {movie.rating}
-
+            {movie.rating.toFixed(1)}
           </span>
 
-          <span>{movie.genre}</span>
-
-          <span>{movie.year}</span>
+          <span>
+            {movie.release_date?.substring(0, 4)}
+          </span>
 
         </div>
 
-        <p className="mt-6 text-gray-400 leading-7">
-
-          A short movie description will appear here once
-          the backend is connected with TMDB.
-
+        <p className="mt-6 text-gray-400 leading-7 line-clamp-4">
+          {movie.overview}
         </p>
 
         <div className="flex flex-wrap gap-5 mt-8">
 
           <button
+            onClick={() => navigate(`/movie/${movie.id}`)}
             className="
             flex
             items-center
@@ -75,13 +72,12 @@ const WatchlistMovieCard = ({ movie, removeMovie }) => {
             rounded-full
             "
           >
-            <Play size={18} fill="white"/>
-
-            Trailer
-
+            <Play size={18} fill="white" />
+            View Movie
           </button>
 
           <button
+            onClick={() => navigate(`/movie/${movie.id}`)}
             className="
             border
             border-white/20
@@ -111,11 +107,8 @@ const WatchlistMovieCard = ({ movie, removeMovie }) => {
             transition
             "
           >
-
             <Trash2 size={18}/>
-
             Remove
-
           </button>
 
         </div>
