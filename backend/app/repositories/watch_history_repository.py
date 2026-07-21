@@ -56,3 +56,13 @@ class WatchHistoryRepository:
             .limit(limit)
             .all()
         )
+    
+    def get_all_by_user(
+        self,
+        user_id: int,
+    ):
+        return (
+            self.db.query(WatchHistory)
+            .filter(WatchHistory.user_id == user_id)
+            .all()
+        )

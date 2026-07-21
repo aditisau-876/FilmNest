@@ -3,6 +3,10 @@ from typing import List
 from pydantic import BaseModel
 
 
+class GenreResponse(BaseModel):
+    id: int
+    name: str
+
 class MovieCardResponse(BaseModel):
     id: int
     title: str
@@ -18,9 +22,7 @@ class MovieListResponse(BaseModel):
     data: List[MovieCardResponse]
 
 
-class GenreResponse(BaseModel):
-    id: int
-    name: str
+
 
 
 class MovieDetailResponse(BaseModel):

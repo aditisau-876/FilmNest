@@ -37,3 +37,15 @@ class WatchHistoryService:
             user_id,
             limit,
         )
+    
+
+    def get_watched_movie_ids(
+        self,
+        user_id: int,
+    ):
+        history = self.repo.get_all_by_user(user_id)
+
+        return [
+            item.movie_id
+            for item in history
+        ]

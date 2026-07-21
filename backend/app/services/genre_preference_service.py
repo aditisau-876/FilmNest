@@ -22,3 +22,14 @@ class GenrePreferenceService:
 
     def get_top_genres(self, user_id: int):
         return self.repo.get_top_genres(user_id)
+    
+    def get_favorite_genres(
+        self,
+        user_id: int,
+    ):
+        preferences = self.repo.get_top_genres(user_id)
+
+        return [
+            preference.genre
+            for preference in preferences
+        ]

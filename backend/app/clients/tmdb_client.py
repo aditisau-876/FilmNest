@@ -24,4 +24,9 @@ class TMDBClient:
             raise HTTPException(status_code=e.response.status_code,detail=e.response.text)
 
         except httpx.RequestError as e:
-            raise HTTPException(status_code=503,detail=f"TMDB request failed: {str(e)}")
+            print("TMDB REQUEST ERROR:", repr(e))
+
+            raise HTTPException(
+                status_code=503,
+                detail=f"TMDB request failed: {repr(e)}",
+            )

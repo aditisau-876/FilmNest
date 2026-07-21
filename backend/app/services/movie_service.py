@@ -14,6 +14,8 @@ from app.schemas.movie import (
 )
 from app.core.config import settings
 
+from app.ai.constants import GENRE_MAP
+
 IMAGE_BASE_URL = settings.TMDB_IMAGE_BASE_URL
 
 
@@ -42,6 +44,20 @@ class MovieService:
                     ),
                     release_date=movie.get("release_date"),
                     rating=movie.get("vote_average", 0.0),
+
+                    genres=[
+                        GenreResponse(
+                            id=genre_id,
+                            name=GENRE_MAP.get(
+                                genre_id,
+                                "Unknown",
+                            ),
+                        )
+                        for genre_id in movie.get(
+                            "genre_ids",
+                            [],
+                        )
+                    ],
                 )
             )
 
@@ -70,6 +86,23 @@ class MovieService:
     
     async def get_popular_movies(self):
         response = await self.tmdb.get("/movie/popular")
+        return self._format_movies(response)
+    
+
+    async def discover_movies(
+        self,
+        params: dict,
+    ) -> MovieListResponse:
+        """
+        Discover movies using TMDB's Discover API.
+        The params dictionary is built by the AI Query Builder.
+        """
+
+        response = await self.tmdb.get(
+            "/discover/movie",
+            params=params,
+        )
+
         return self._format_movies(response)
 
     async def search_movies(self,query: str = "",genre: int | None = None,year: int | None = None,cast: str | None = None) -> MovieListResponse:

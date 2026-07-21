@@ -50,3 +50,4 @@ const RecommendationCard = ({ movie }) => {
 };
 
 export default RecommendationCard;
+

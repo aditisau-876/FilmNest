@@ -15,14 +15,11 @@ const NotificationList = ({ notifications }) => {
 
       <div className="space-y-6">
 
-        {notifications.map((item)=>(
+        {notifications.map((item, index) => (
 
           <NotificationCard
-
-            key={item.id}
-
+            key={`${item.type}-${index}`}
             notification={item}
-
           />
 
         ))}

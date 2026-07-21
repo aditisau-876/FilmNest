@@ -7,6 +7,7 @@ import RecommendationGrid from "../components/recommendation/RecommendationGrid"
 import UpcomingMovies from "../components/dashboard/UpcomingMovies";
 import {getTrendingMovies,getTopRatedMovies,getNewReleases,getPopularMovies} from "../api/movies";
 import { getWatchlist } from "../api/watchlist";
+import { getAIRecommendations } from "../api/ai";
 
 const Dashboard = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -14,6 +15,9 @@ const Dashboard = () => {
   const [newReleases, setNewReleases] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
   const [featuredMovie, setFeaturedMovie] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(false);
+  const [prompt, setPrompt] = useState("");
   
   const refreshWatchlist = async () => {
     try {
@@ -23,6 +27,25 @@ const Dashboard = () => {
       setWatchlist([]);
     }
   };
+
+  const handleRecommend = async () => {
+
+    if (!prompt.trim()) return;
+
+    try {
+
+      setLoadingRecommendations(true);
+
+      const response = await getAIRecommendations(prompt);
+      setRecommendations(response.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingRecommendations(false);
+    }
+  };
+
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -50,8 +73,18 @@ const Dashboard = () => {
     <div className="bg-[#09090B] text-white min-h-screen">
       <AppNavbar />
       <HeroBanner movie={featuredMovie}/>
-      <RecommendationHero />
-      <RecommendationGrid />
+      <RecommendationHero
+        prompt={prompt}
+        setPrompt={setPrompt}
+        onRecommend={handleRecommend}
+        loading={loadingRecommendations}
+      />
+      <RecommendationGrid
+        movies={recommendations}
+        loading={loadingRecommendations}
+        watchlist={watchlist}
+        refreshWatchlist={refreshWatchlist}
+      />
       <UpcomingMovies />
       <MovieRail
         title="Trending Now"
