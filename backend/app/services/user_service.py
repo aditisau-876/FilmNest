@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from datetime import timezone
 
 from app.models.user import User
 from app.models.watchlist import Watchlist
@@ -104,7 +105,11 @@ class UserService:
             })
 
         activities.sort(
-            key=lambda x: x["created_at"],
+            key=lambda x: (
+                x["created_at"]
+                if x["created_at"].tzinfo is not None
+                else x["created_at"].replace(tzinfo=timezone.utc)
+            ),
             reverse=True,
         )
 

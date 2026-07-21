@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     TMDB_API_TOKEN: str
     TMDB_BASE_URL: str
     TMDB_IMAGE_BASE_URL: str
+    GEMINI_API_KEY: str
     model_config = SettingsConfigDict(env_file=".env",case_sensitive=True)
     GOOGLE_CLIENT_ID: str
 settings = Settings()

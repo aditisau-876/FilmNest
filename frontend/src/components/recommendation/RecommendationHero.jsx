@@ -1,10 +1,13 @@
 import { Sparkles, Wand2 } from "lucide-react";
-import { useState } from "react";
 import { motion } from "framer-motion";
 
-const RecommendationHero = () => {
-  const [prompt, setPrompt] = useState("");
-
+const RecommendationHero = ({
+    prompt,
+    setPrompt,
+    onRecommend,
+    loading,
+}) => {
+  
   return (
     <section id="ai-recommendation" className="max-w-7xl mx-auto px-8 pt-12">
 
@@ -59,6 +62,11 @@ const RecommendationHero = () => {
             <input
               value={prompt}
               onChange={(e)=>setPrompt(e.target.value)}
+              onKeyDown={(e)=>{
+                if(e.key==="Enter"){
+                onRecommend();
+                }
+            }}
               placeholder="Example: I want a mind-bending sci-fi thriller..."
               className="
                 flex-1
@@ -74,6 +82,8 @@ const RecommendationHero = () => {
             />
 
             <button
+              onClick={onRecommend}
+              disabled={loading}
               className="
                 bg-red-600
                 hover:bg-red-700
@@ -88,7 +98,7 @@ const RecommendationHero = () => {
 
               <Wand2 size={20}/>
 
-              Recommend
+              {loading ? "Thinking..." : "Recommend"}
 
             </button>
 
