@@ -1,47 +1,50 @@
+ import { useEffect, useState } from "react";
 import RecommendationCard from "./RecommendationCard";
 
-const RecommendationGrid = ({
-  movies,
-  loading,
-}) => {
+import {
+  getTrendingMovies,
+  getRecommendations,
+} from "../../api/movies";
+
+const RecommendationGrid = () => {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        // First get trending movies
+        const trending = await getTrendingMovies();
+
+        if (!trending.length) return;
+
+        // Take the first trending movie
+        const firstMovie = trending[0];
+
+        // Fetch recommendations for that movie
+        const recommendations = await getRecommendations(firstMovie.id);
+
+        setMovies(recommendations.slice(0, 5));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecommendations();
+  }, []);
 
   if (loading) {
     return (
       <section className="max-w-7xl mx-auto px-8 py-12">
-
         <h2 className="text-3xl font-bold mb-8">
-          AI Recommendations
+          Because You Watched
         </h2>
 
         <p className="text-gray-400">
-          🤖 Finding the perfect movies for you...
+          Loading recommendations...
         </p>
-
-      </section>
-    );
-  }
-
-  if (!movies.length) {
-    return (
-      <section className="max-w-7xl mx-auto px-8 py-12">
-
-        <div>
-
-          <p className="uppercase tracking-[6px] text-red-500">
-            AI Powered
-          </p>
-
-          <h2 className="text-4xl font-bold">
-            Movie Recommendations
-          </h2>
-
-          <p className="text-gray-400 mt-3">
-            Enter a prompt above and let FilmNest AI recommend movies
-            based on your mood, favourite actors, genres or keywords.
-          </p>
-
-        </div>
-
       </section>
     );
   }
@@ -54,11 +57,11 @@ const RecommendationGrid = ({
         <div>
 
           <p className="uppercase tracking-[6px] text-red-500">
-            AI Powered
+            Personalized
           </p>
 
           <h2 className="text-4xl font-bold">
-            Recommended For You
+            Because You Watched
           </h2>
 
         </div>

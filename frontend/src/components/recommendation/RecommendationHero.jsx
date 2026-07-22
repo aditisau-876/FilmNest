@@ -1,13 +1,27 @@
 import { Sparkles, Wand2 } from "lucide-react";
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { getAIRecommendations } from "../../api/movies";
 
-const RecommendationHero = ({
-    prompt,
-    setPrompt,
-    onRecommend,
-    loading,
-}) => {
-  
+const RecommendationHero = () => {
+  const [prompt, setPrompt] = useState("");
+  const navigate = useNavigate();
+  const [loading,setLoading]=useState(false);
+  const handleRecommend = async () => {
+    if(!prompt.trim()) return;
+    try{
+        setLoading(true);
+        const result = await getAIRecommendations(prompt);
+        navigate("/ai-results",{
+            state:{movies: result.data,prompt}
+        });
+    }
+    catch(err){
+        console.log(err);}
+    finally{
+        setLoading(false);}
+}
   return (
     <section id="ai-recommendation" className="max-w-7xl mx-auto px-8 pt-12">
 
@@ -62,11 +76,6 @@ const RecommendationHero = ({
             <input
               value={prompt}
               onChange={(e)=>setPrompt(e.target.value)}
-              onKeyDown={(e)=>{
-                if(e.key==="Enter"){
-                onRecommend();
-                }
-            }}
               placeholder="Example: I want a mind-bending sci-fi thriller..."
               className="
                 flex-1
@@ -81,25 +90,8 @@ const RecommendationHero = ({
               "
             />
 
-            <button
-              onClick={onRecommend}
-              disabled={loading}
-              className="
-                bg-red-600
-                hover:bg-red-700
-                transition
-                rounded-2xl
-                px-8
-                flex
-                items-center
-                gap-3
-              "
-            >
-
-              <Wand2 size={20}/>
-
-              {loading ? "Thinking..." : "Recommend"}
-
+            <button onClick={handleRecommend} className="bg-red-600 hover:bg-red-700 transition rounded-2xl px-8 flex items-center gap-3">
+              <Wand2 size={20}/>{loading ? "Finding..." : "Recommend"}
             </button>
 
           </div>
