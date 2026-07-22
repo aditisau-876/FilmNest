@@ -3,6 +3,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import AIRecommendations from "./pages/AIRecommendations";
 import MovieDetails from "./pages/MovieDetails";
 import Search from "./pages/Search";
 import Watchlist from "./pages/Watchlist";
@@ -19,6 +20,7 @@ function App() {
       <Route path="/search" element={<Search />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/ai-results" element={<AIRecommendations />} />
         <Route path="/watchlist" element={<Watchlist />}/>
         <Route path="/notifications" element={<Notifications />}/>
         <Route path="/profile" element={<Profile />}/>

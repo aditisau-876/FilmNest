@@ -7,7 +7,7 @@ import RecommendationGrid from "../components/recommendation/RecommendationGrid"
 import UpcomingMovies from "../components/dashboard/UpcomingMovies";
 import {getTrendingMovies,getTopRatedMovies,getNewReleases,getPopularMovies} from "../api/movies";
 import { getWatchlist } from "../api/watchlist";
-import { getAIRecommendations } from "../api/ai";
+import { getAIRecommendations } from "../api/movies";
 
 const Dashboard = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);

@@ -1,7 +1,6 @@
 import json
-
 from google import genai
-
+from google.genai.errors import ServerError
 from app.core.config import settings
 from app.schemas.ai import MoviePreferences
 
@@ -121,11 +120,8 @@ Output:
 
 class GeminiClient:
 
-    def extract_preferences(
-        self,
-        user_prompt: str
-    ) -> MoviePreferences:
-
+    def extract_preferences(self,user_prompt: str) -> MoviePreferences:
+      try:
         response = client.models.generate_content(
             model="gemini-3.5-flash",
             contents=f"{SYSTEM_PROMPT}\n\nUser Request:\n{user_prompt}",
@@ -134,6 +130,8 @@ class GeminiClient:
         data = json.loads(response.text)
 
         return MoviePreferences(**data)
+      except ServerError:
+        raise Exception("Gemini is currently busy. Please try again in a few seconds.")
 
 
 gemini_client = GeminiClient()

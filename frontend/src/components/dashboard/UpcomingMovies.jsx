@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { motion, useAnimationFrame } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+
 const CARD_WIDTH = 520;
 
 const UpcomingMovies = () => {
   const navigate = useNavigate();
+
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,11 +15,13 @@ const UpcomingMovies = () => {
   const [paused, setPaused] = useState(false);
 
   const [isTouching, setIsTouching] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
   const resumeTimer = useRef(null);
 
-  // Much slower than MovieRail
   const speed = 0.35;
 
+  // Fetch movies
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -38,9 +42,26 @@ const UpcomingMovies = () => {
     fetchMovies();
   }, []);
 
-  const duplicatedMovies = [...movies, ...movies];
+  // Detect mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
 
+    window.addEventListener("resize", handleResize);
+
+    return () =>
+      window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const duplicatedMovies = isMobile
+    ? movies
+    : [...movies, ...movies];
+
+  // Desktop auto-scroll only
   useAnimationFrame(() => {
+    if (isMobile) return;
+
     if (paused || isTouching || movies.length === 0) return;
 
     setOffset((prev) => {
@@ -59,17 +80,21 @@ const UpcomingMovies = () => {
   }, []);
 
   const handleTouchStart = () => {
-    setIsTouching(true);
-    clearTimeout(resumeTimer.current);
+    if (!isMobile) {
+      setIsTouching(true);
+      clearTimeout(resumeTimer.current);
+    }
   };
 
   const handleTouchEnd = () => {
-    resumeTimer.current = setTimeout(() => {
-      setIsTouching(false);
-    }, 1800);
+    if (!isMobile) {
+      resumeTimer.current = setTimeout(() => {
+        setIsTouching(false);
+      }, 1800);
+    }
   };
 
-  if (loading)
+  if (loading) {
     return (
       <section className="py-20">
         <div className="max-w-[1600px] mx-auto px-6 text-gray-400">
@@ -77,15 +102,14 @@ const UpcomingMovies = () => {
         </div>
       </section>
     );
+  }
 
   return (
     <section className="py-20 overflow-hidden">
       <div className="max-w-[1600px] mx-auto">
 
         {/* Heading */}
-
         <div className="flex justify-between items-center px-6 mb-10">
-
           <div>
             <p className="uppercase tracking-[6px] text-red-500">
               Coming Soon
@@ -95,41 +119,41 @@ const UpcomingMovies = () => {
               Upcoming Movies
             </h2>
           </div>
-
-
         </div>
 
         {/* Rail */}
-
         <div
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
+          onMouseEnter={() => !isMobile && setPaused(true)}
+          onMouseLeave={() => !isMobile && setPaused(false)}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          className="
+          className={`
             overflow-x-auto
             hide-scrollbar
-            cursor-grab
-            active:cursor-grabbing
-          "
+            ${isMobile ? "" : "cursor-grab active:cursor-grabbing"}
+          `}
         >
           <motion.div
-            drag="x"
+            drag={isMobile ? false : "x"}
             dragConstraints={{
               left: -99999,
               right: 99999,
             }}
-            whileTap={{
-              cursor: "grabbing",
-            }}
+            whileTap={
+              isMobile
+                ? {}
+                : {
+                    cursor: "grabbing",
+                  }
+            }
             style={{
-              x: offset,
+              x: isMobile ? 0 : offset,
             }}
             className="flex gap-6 w-max px-6"
           >
             {duplicatedMovies.map((movie, index) => (
               <div
-                key={index}
+                key={`${movie.id}-${index}`}
                 onClick={() => navigate(`/movie/${movie.id}`)}
                 className="
                   relative
@@ -139,6 +163,7 @@ const UpcomingMovies = () => {
                   overflow-hidden
                   flex-shrink-0
                   group
+                  cursor-pointer
                 "
               >
                 <img
@@ -174,8 +199,11 @@ const UpcomingMovies = () => {
                     ⭐ {movie.rating}
                   </p>
 
-                  <button 
-                   onClick={(e) => {e.stopPropagation(); navigate(`/movie/${movie.id}`);}}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/movie/${movie.id}`);
+                    }}
                     className="
                       mt-5
                       bg-white

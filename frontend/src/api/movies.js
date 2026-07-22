@@ -1,4 +1,14 @@
-import API from "./api";
+import axios from "axios";
+
+const API = axios.create({baseURL: "http://localhost:8000"});
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;}
+  return config;
+});
 
 export const getTrendingMovies = async () => {
   const { data } = await API.get("/movies/trending");
@@ -68,3 +78,7 @@ export const getPopularMovies = async () => {
     return data.data;
 };
 
+export const getAIRecommendations = async (prompt) => {
+  const { data } = await API.post("/ai/recommend", {prompt});
+  return data;
+};
