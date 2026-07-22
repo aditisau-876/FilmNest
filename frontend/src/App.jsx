@@ -20,7 +20,7 @@ function App() {
       <Route path="/search" element={<Search />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />}/>
-        <Route path="/ai-results" element={<AIResults />} />
+        <Route path="/ai-results" element={<AIRecommendations />} />
         <Route path="/watchlist" element={<Watchlist />}/>
         <Route path="/notifications" element={<Notifications />}/>
         <Route path="/profile" element={<Profile />}/>
