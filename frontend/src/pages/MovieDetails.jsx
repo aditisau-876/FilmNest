@@ -9,6 +9,7 @@ import SimilarMovies from "../components/movie/SimilarMovies";
 import ReviewSection from "../components/movie/ReviewSection";
 import TrailerSection from "../components/movie/TrailerSection";
 import MovieNavbar from "../components/MovieNavbar";
+import WriteReviewCard from "../components/movie/WriteReviewCard";
 import {getMovieDetails,getMovieTrailer,getMovieCast,getWatchProviders,getMovieReviews,getSimilarMovies} from "../api/movies";
 import {getWatchlist,addToWatchlist,removeFromWatchlist} from "../api/watchlist";
 
@@ -100,20 +101,19 @@ const MovieDetails = () => {
   return (
     <div className="bg-[#09090B] text-white min-h-screen">
       <MovieNavbar />
-
       <MovieHero
         movie={movie}
         trailer={trailer}
         added={added}
         handleWatchlist={handleWatchlist}
       />
-
       <TrailerSection trailer={trailer} />
       <MovieInfo movie={movie} />
       <StreamingPlatforms providers={providers} />
       <CastSection cast={cast} />
-      <SimilarMovies movies={similarMovies} />
       <ReviewSection reviews={reviews} />
+      <WriteReviewCard movieId={movie.id} />
+      <SimilarMovies movies={similarMovies} />
     </div>
   );
 };

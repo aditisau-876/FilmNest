@@ -9,14 +9,7 @@ const FavoriteGenres = ({ profile }) => {
 
       <div className="flex flex-wrap gap-4">
         {genres.length > 0 ? (
-          genres.map((genre) => (
-            <span
-              key={genre}
-              className="px-6 py-3 rounded-full bg-red-600 hover:bg-red-500 transition-all duration-300 shadow-lg hover:scale-105"
-            >
-              {genre}
-            </span>
-          ))
+          genres.map((genre) => (<span key={genre} className="px-6 py-3 rounded-full bg-red-600 hover:bg-red-500 transition-all duration-300 shadow-lg hover:scale-105">{genre}</span>))
         ) : (
           <p className="text-gray-400">
             Search and explore movies to build your favorite genres.

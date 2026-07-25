@@ -27,7 +27,7 @@ from app.repositories.genre_preference_repository import (
 from app.services.genre_preference_service import (
     GenrePreferenceService,
 )
-
+from app.services.recent_service import add_recent_movie
 router = APIRouter(prefix="/movies",tags=["Movies"])
 movie_service = MovieService()
 
@@ -97,11 +97,8 @@ async def movie_details(
     history_repo = WatchHistoryRepository(db)
     history_service = WatchHistoryService(history_repo)
 
-    history_service.record_view(
-        current_user.id,
-        movie_id,
-    )
-    
+    history_service.record_view(current_user.id,movie_id)
+    add_recent_movie(db=db,user_id=current_user.id,movie_id=movie_id)
     repo = GenrePreferenceRepository(db)
     service = GenrePreferenceService(repo)
 

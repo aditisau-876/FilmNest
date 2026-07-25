@@ -1,19 +1,14 @@
 import { Star, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
-import {
-  addToWatchlist,
-  removeFromWatchlist,
-} from "../../api/watchlist";
+import {addToWatchlist, removeFromWatchlist} from "../../api/watchlist";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import LoginRequiredModal from "../../components/LoginRequiredModal";
 
 const MovieCard = ({ movie, watchlist = [], refreshWatchlist }) => {
   const navigate = useNavigate();
-
   const [added, setAdded] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-
   useEffect(() => {
     setAdded(watchlist.some((item) => item.id === movie.id));
   }, [watchlist, movie.id]);
@@ -53,97 +48,27 @@ const MovieCard = ({ movie, watchlist = [], refreshWatchlist }) => {
   return (
     <>
       <motion.div
-        whileHover={{
-          y: -12,
-          scale: 1.04,
-        }}
+        whileHover={{y: -12,scale: 1.04}}
         transition={{ duration: 0.35 }}
         onClick={() => navigate(`/movie/${movie.id}`)}
-        className="
-          min-w-[230px]
-          bg-[#141414]
-          rounded-3xl
-          overflow-hidden
-          border
-          border-white/10
-          hover:border-red-600
-          group
-          cursor-pointer
-          flex-shrink-0
-        "
-      >
+        className="min-w-[230px] bg-[#141414] rounded-3xl overflow-hidden border border-white/10 hover:border-red-600 group cursor-pointer flex-shrink-0">
         <div className="relative overflow-hidden">
-          <img
-            src={movie.poster_url}
-            alt={movie.title}
-            className="
-              h-[340px]
-              w-full
-              object-cover
-              transition
-              duration-500
-              group-hover:scale-110
-            "
-          />
-
+          <img src={movie.poster_url} alt={movie.title} className="h-[340px] w-full object-cover transition duration-500 group-hover:scale-110"/>
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
         </div>
-
         <div className="p-5">
-          <h3 className="font-bold text-xl mb-2 line-clamp-1">
-            {movie.title}
-          </h3>
-
+          <h3 className="font-bold text-xl mb-2 line-clamp-1">{movie.title}</h3>
           <div className="flex justify-between items-center">
-            <span className="text-gray-400">
-              {movie.release_date?.split("-")[0]}
-            </span>
-
-            <span className="flex items-center gap-1">
-              <Star
-                size={17}
-                fill="#E50914"
-                className="text-red-600"
-              />
-              {movie.rating?.toFixed(1)}
-            </span>
+            <span className="text-gray-400">{movie.release_date?.split("-")[0]}</span>
+            <span className="flex items-center gap-1"><Star size={17} fill="#E50914" className="text-red-600"/>{movie.rating?.toFixed(1)}</span>
           </div>
-
           <div className="flex gap-3 mt-5">
-            <button
-              onClick={handleDetails}
-              className="
-                flex-1
-                bg-red-600
-                hover:bg-red-700
-                rounded-full
-                py-3
-                transition
-              "
-            >
-              View Details
-            </button>
-
-            <button
-              onClick={handleWatchlist}
-              className="
-                px-4
-                rounded-full
-                transition
-                bg-white/10
-                hover:bg-red-600
-              "
-            >
-              <Heart
-                size={22}
-                fill={added ? "red" : "none"}
-                className="text-red-500"
-              />
+            <button onClick={handleDetails} className="flex-1 bg-red-600 hover:bg-red-700 rounded-full py-3 transition">View Details</button>
+            <button onClick={handleWatchlist} className="px-4 rounded-full transition bg-white/10 hover:bg-red-600"> <Heart size={22} fill={added ? "red" : "none"} className="text-red-500"/>
             </button>
           </div>
         </div>
       </motion.div>
-
       <LoginRequiredModal
         open={showLoginModal}
         onClose={() => setShowLoginModal(false)}

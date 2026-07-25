@@ -5,7 +5,13 @@ from alembic import context
 
 from app.core.config import settings
 from app.core.database import Base
-from app.models import User
+from app.models import (
+    User,
+    Watchlist,
+    GenrePreference,
+    WatchHistory,
+    RecentlyViewed,
+)
 
 # Alembic Config object
 config = context.config

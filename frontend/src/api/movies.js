@@ -73,6 +73,11 @@ export const getRecommendations = async (id) => {
   return data.data;
 };
 
+export const getRecommendationBase = async () => {
+    const { data } = await API.get("/users/recommendation-base");
+    return data;
+};
+
 export const getPopularMovies = async () => {
     const { data } = await API.get("/movies/popular");
     return data.data;
