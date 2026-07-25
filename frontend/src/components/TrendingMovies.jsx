@@ -48,53 +48,18 @@ image:"/featured/oppenheimer-poster.jpg"
 
 const TrendingMovies = () => {
   return (
-
-<section className="py-24 bg-[#09090B]">
-
-<div className="max-w-7xl mx-auto px-6">
-
-<div className="flex justify-between items-center mb-12">
-
-<div>
-
-<p className="uppercase tracking-[5px] text-red-500">
-
-Trending
-
-</p>
-
-<h2 className="hero-title text-5xl">
-
-Trending Now
-
-</h2>
-
-</div>
-
-</div>
-
-<div
-className="
-flex
-gap-7
-overflow-x-auto
-scrollbar-hide
-pb-5
-"
->
-
-{movies.map((movie,index)=>(
-
-<MovieCard 
-key={index}
-movie={movie}/>))}
-
-</div>
-
-</div>
-
-</section>
-
+    <section className="py-24 bg-[#09090B]">
+    <div className="max-w-7xl mx-auto px-6">
+    <div className="flex justify-between items-center mb-12">
+    <div>
+      <p className="uppercase tracking-[5px] text-red-500">Trending</p>
+      <h2 className="hero-title text-5xl">Trending Now</h2>
+    </div>
+    </div>
+    <div className="flex gap-7 overflow-x-auto scrollbar-hide pb-5">{movies.map((movie,index)=>(<MovieCard  key={index} movie={movie}/>))}
+    </div>
+  </div>
+  </section>
   );
 };
 

@@ -10,17 +10,8 @@ const ContinueWatching = ({ movies }) => {
 
         {movies.map((movie) => (
           <div key={movie.id}>
-
-            <img
-              src={movie.poster_url}
-              alt={movie.title}
-              className="rounded-xl"
-            />
-
-            <h3 className="mt-3 font-semibold">
-              {movie.title}
-            </h3>
-
+            <img src={movie.poster_url} alt={movie.title} className="rounded-xl"/>
+            <h3 className="mt-3 font-semibold">{movie.title}</h3>
           </div>
         ))}
 

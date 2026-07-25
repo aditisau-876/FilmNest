@@ -1,10 +1,4 @@
-import {
-  Calendar,
-  Clock3,
-  Globe,
-  Film,
-  BadgeCheck,
-} from "lucide-react";
+import {Calendar,Clock3,Globe,Film,BadgeCheck,} from "lucide-react";
 
 const MovieInfo = ({ movie }) => {
   if (!movie) return null;
