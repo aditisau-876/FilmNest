@@ -29,13 +29,9 @@ const Dashboard = () => {
   };
 
   const handleRecommend = async () => {
-
     if (!prompt.trim()) return;
-
     try {
-
       setLoadingRecommendations(true);
-
       const response = await getAIRecommendations(prompt);
       setRecommendations(response.data);
     } catch (err) {
@@ -44,7 +40,6 @@ const Dashboard = () => {
       setLoadingRecommendations(false);
     }
   };
-
 
   useEffect(() => {
     const fetchMovies = async () => {

@@ -25,23 +25,19 @@ const RecommendationHero = () => {
   return (
     <section id="ai-recommendation" className="max-w-7xl mx-auto px-8 pt-12">
 
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: .6 }}
-        className="
-          relative
-          overflow-hidden
-          rounded-3xl
-          border
-          border-white/10
-          bg-gradient-to-br
-          from-[#18181B]
-          to-[#0F0F11]
-          p-10
-        "
-      >
+      <div
+  className="
+    relative
+    overflow-hidden
+    rounded-3xl
+    border
+    border-white/10
+    bg-gradient-to-br
+    from-[#18181B]
+    to-[#0F0F11]
+    p-10
+  "
+>
 
         <div className="absolute -top-20 -right-20 w-72 h-72 bg-red-600/20 blur-[120px]" />
         <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-red-600/15 blur-[120px]" />
@@ -98,7 +94,7 @@ const RecommendationHero = () => {
 
         </div>
 
-      </motion.div>
+      </div>
 
     </section>
   );

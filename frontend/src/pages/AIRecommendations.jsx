@@ -3,7 +3,9 @@ import { ArrowLeft } from "lucide-react";
 import MovieCard from "../components/movieRail/MovieCard";
 import AppNavbar from "../components/AppNavbar";
 const AIRecommendations = () => {
+  console.log("✅ AIRecommendations rendered");
     const location = useLocation();
+    console.log("Location state:", location.state);
     const navigate = useNavigate();
     const movies = location.state?.movies || [];
     const prompt = location.state?.prompt || "";
