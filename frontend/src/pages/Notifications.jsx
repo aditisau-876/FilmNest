@@ -14,7 +14,7 @@ const Notifications = () => {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "http://localhost:8000/notifications",
+          "https://filmnest-backend.onrender.com/notifications",
           {
             headers: {
               Authorization: `Bearer ${token}`,

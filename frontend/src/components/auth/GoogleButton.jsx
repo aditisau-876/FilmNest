@@ -10,7 +10,7 @@ const GoogleButton = ({
         onSuccess: async (tokenResponse) => {
             try {
                 const response =
-                    await axios.post("http://localhost:8000/auth/google",{access_token:tokenResponse.access_token,});
+                    await axios.post("https://filmnest-backend.onrender.com/auth/google",{access_token:tokenResponse.access_token,});
                 localStorage.setItem("token",response.data.access_token);
                 navigate("/dashboard");
             } catch (err) {

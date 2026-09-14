@@ -11,7 +11,7 @@ const SignupForm = () => {
     e.preventDefault();
     try {
         const response = await axios.post(
-            "http://localhost:8000/auth/signup",
+            "https://filmnest-backend.onrender.com/auth/signup",
             {username, email, password});
         localStorage.setItem("token", response.data.token.access_token);
         navigate("/dashboard");

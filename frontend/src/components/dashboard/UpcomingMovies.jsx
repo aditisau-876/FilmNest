@@ -16,7 +16,7 @@ const UpcomingMovies = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/movies/upcoming");
+        const res = await axios.get("https://filmnest-backend.onrender.com/movies/upcoming");
         if (res.data.success) {
           setMovies(res.data.data);
         }

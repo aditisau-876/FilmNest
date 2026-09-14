@@ -24,7 +24,7 @@ const Profile = () => {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "http://localhost:8000/users/me",
+          "https://filmnest-backend.onrender.com/users/me",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ const Profile = () => {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "http://localhost:8000/users/watch-history",
+          "https://filmnest-backend.onrender.com/users/watch-history",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ const Profile = () => {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "http://localhost:8000/users/recent-activity",
+          "https://filmnest-backend.onrender.com/users/recent-activity",
           {
             headers: {
             Authorization: `Bearer ${token}`,

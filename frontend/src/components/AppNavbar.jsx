@@ -57,7 +57,7 @@ const AppNavbar = () => {
         const [notificationRes, profileRes] =
           await Promise.allSettled([
             axios.get(
-              "http://localhost:8000/notifications",
+              "https://filmnest-backend.onrender.com/notifications",
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -66,7 +66,7 @@ const AppNavbar = () => {
             ),
 
             axios.get(
-              "http://localhost:8000/users/me",
+              "https://filmnest-backend.onrender.com/users/me",
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
