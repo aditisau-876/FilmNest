@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 import actionImage from "../assets/action.jpg";
 import sciFiImage from "../assets/scifi.png";
-import dramaImage from "../assets/drama.png";
+import dramaImage from "../assets/drama.jpg";
 import comedyImage from "../assets/comedy.png";
 import horrorImage from "../assets/horror.png";
 import animationImage from "../assets/animation.png";
